@@ -1,0 +1,31 @@
+footer {
+  border: 2px solid purple;
+}
+.footer-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.icons a {
+  /* border: 2px solid green; */
+  font-size: 2rem;
+  justify-content: space-between;
+  padding-right: 2rem;
+  color: black;
+}
+.icons a:hover {
+  color: red;
+}
+
+@media (min-width: 311px) and (max-width: 599px) {
+  .author h1 {
+    font-size: 1rem;
+  }
+  .icons a {
+    /* border: 2px solid green; */
+    font-size: 1.5rem;
+    padding-right: 1rem;
+  }
+}

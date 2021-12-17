@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- <link rel="stylesheet" href="../styles/body.css" />
+    <link rel="stylesheet" href="../styles/footer.css" /> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/3ebcd25298.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Travel Form</title>
+  </head>
+  <body id="form-body">
+    <div>
+      <header id="header-text"><h1>Trip Summariser</h1></header>
+      <div class="form-div">
+        <form action="" id="form-id">
+          <label for="location" class="form-details">
+            <span><i class="form-icon fas fa-map-pin"></i></span> Current
+            Location</label
+          >
+          <br />
+          <input
+            type="text"
+            id="location"
+            placeholder="What is your current location?"
+            required
+          /><br />
+          <label for="location" class="form-details">
+            <span><i class="form-icon fas fa-plane-arrival"></i></span>
+            Destination</label
+          >
+          <br />
+          <input
+            type="text"
+            id="destination"
+            placeholder="Where are you visiting?"
+            required
+          /><br />
+          <label for="departure-date" class="form-details">
+            <span><i class="form-icon fas fa-calendar-day"></i></span> Departure
+            Date</label
+          ><br />
+          <input type="date" id="date" name="travel-date" /> <br />
+
+          <label for="feel" class="form-details">
+            <span><i class="form-icon far fa-grin-stars"></i></span> How do you
+            feel?</label
+          ><br />
+          <input type="text" id="feel" placeholder="Eg Excited, Happy..." />
+          <br />
+          <button id="search-button">
+            <span
+              ><i id="button-search" class="form-icon fas fa-search"></i
+            ></span>
+          </button>
+        </form>
+      </div>
+      <div>
+        <div class="result-heading">
+          <h1>Upcoming Trips</h1>
+        </div>
+        <div class="trip-card" id="trip-card">
+          <!-- <section class="results">
+            <div id="result-content">
+              <h2 id="state">Santa Monica, Califonia</h2>
+              <h3 class="result-text">
+                From <span id="current-location">Nigeria</span> , I am
+                travelling to
+                <span id="content-destination">Santa Monica, Califonia</span> on
+                <span id="content-date">12/04/2022</span> and
+                <span id="content-feel">I feel good!</span>
+              </h3>
+              <p class="weather" id="weather">
+                <span id="content-temp">Temperature: 20C </span> <br />
+                <span id="content-descrip"> Description: Broken clouds</span>
+              </p>
+            </div>
+            <div class="result-img">
+              <img
+                src="/src/client/img/travel.jpeg"
+                id="img"
+                alt="Location image"
+              />
+            </div>
+          </section>
+          <section id="result-button">
+            <div>
+              <button id="save-button" class="trip-button">Save</button>
+            </div>
+            <div>
+              <button id="delete-button" class="trip-button">Delete</button>
+            </div>
+          </section> -->
+        </div>
+        <div class="trip-list" id="trip-list">
+          <!-- <div class="mini-card">
+            <div class="mini-img">
+              <img
+                src="/src/client/img/img3.jpeg"
+                alt="Destination Pictures"
+                class="mini-img"
+              />
+            </div>
+            <div class="mini-content">
+              <h3>Santa Monica, Califonia</h3>
+              <p class="result-text">Countdown: 7 days and I feel good!</p>
+              <p class="weather">
+                Temperature: 20C <br />
+                Humidity: 80%
+              </p>
+            </div>
+            <div class="mini-button">
+              <span><i class="form-icon fas fa-trash-alt"></i></span>
+            </div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-img">
+              <img
+                src="/src/client/img/img4.jpeg"
+                alt="Destination Pictures"
+                class="mini-img"
+              />
+            </div>
+            <div class="mini-content">
+              <h3>Santa Monica, Califonia</h3>
+              <p class="result-text">Countdown: 7 days and I feel good!</p>
+              <p class="weather">
+                Temperature: 20C <br />
+                Humidity: 80%
+              </p>
+            </div>
+            <div class="mini-button">
+              <span><i class="form-icon fas fa-trash-alt"></i></span>
+            </div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-img">
+              <img
+                src="/src/client/img/trav.jpeg"
+                alt="Destination Pictures"
+                class="mini-img"
+              />
+            </div>
+            <div class="mini-content">
+              <h3>Santa Monica, Califonia</h3>
+              <p class="result-text">Countdown: 7 days and I feel good!</p>
+              <p class="weather">
+                Temperature: 20C <br />
+                Humidity: 80%
+              </p>
+            </div>
+            <div class="mini-button">
+              <span><i class="form-icon fas fa-trash-alt"></i></span>
+            </div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-img">
+              <img
+                src="/src/client/img/img1.jpeg"
+                alt="Destination Pictures"
+                class="mini-img"
+              />
+            </div>
+            <div class="mini-content">
+              <h3>Santa Monica, Califonia</h3>
+              <p class="result-text">Countdown: 7 days and I feel good!</p>
+              <p class="weather">
+                Temperature: 20C <br />
+                Humidity: 80%
+              </p>
+            </div>
+            <div class="mini-button">
+              <span><i class="form-icon fas fa-trash-alt"></i></span>
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <div class="extra">
+        <h1 id="extra-text">
+          “The world is a book and those who do not travel read only one page.”
+          -Saint Augustine
+        </h1>
+      </div>
+    </div>
+  </body>
+  <footer>
+    <div class="footer-div">
+      <section class="author">
+        <h1>Tosin Dawodu©</h1>
+      </section>
+      <section class="footer-icons">
+        <span class="icons">
+          <a href="https://www.instagram.com/tosin_dawodu/" target="blank"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a href="https://www.linkedin.com/in/tosin-dawodu/" target="blank">
+            <i class="fab fa-linkedin-in"></i
+          ></a>
+          <a href="https://github.com/tosin-dawodu" target="blank">
+            <i class="fab fa-github"></i
+          ></a>
+        </span>
+      </section>
+    </div>
+  </footer>
+</html>
