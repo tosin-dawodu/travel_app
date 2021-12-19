@@ -1,4 +1,3 @@
-// JS file for the server side ie for APIs and co
 
 const dotenv = require("dotenv");
 const https = require("https");
@@ -51,8 +50,7 @@ app.post("/result", async function (req, res) {
     res.send(error);
   }
 });
-// create a request for the geonames API using the destination as the query
-// request for the longitude and latitude which will be passed into the other API requests
+// create a request for the geonames API passing the destination as the query
 const geoNames = (destination) => {
   return new Promise((resolve, reject) => {
     http
@@ -90,7 +88,6 @@ const geoNames = (destination) => {
 };
 
 // create a request for the weatherbits API using the lat and long obtained from geonames as the query
-// since an array of the days will be returned, explain
 const weatherBit = (lat, long, days) => {
   // console.log(days);
   return new Promise((resolve, reject) => {
@@ -125,6 +122,7 @@ const weatherBit = (lat, long, days) => {
       });
   });
 };
+// create a request for the pixabay API passing the destination as the query
 
 const pixaBay = (destination) => {
   return new Promise((resolve, reject) => {

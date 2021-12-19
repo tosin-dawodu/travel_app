@@ -1,9 +1,6 @@
 * {
   margin: 0;
   padding: 0;
-  /* font-family: "Architects Daughter", cursive; */
-  /* font-family: "Gloria Hallelujah", cursive; */
-  /* font-family: "Sora", sans-serif; */
   font-family: "Shalimar", cursive;
 }
 
@@ -60,14 +57,12 @@ button:hover {
   justify-content: center;
   align-items: center;
   margin: 4rem;
-  /* background-color: blue; */
 }
 .form-icon {
   color: #de520d;
   font-size: 2rem;
 }
 .form-details {
-  /* border: 2px solid greenyellow; */
   font-size: 1.625rem;
   color: #433c39;
 }
@@ -95,7 +90,6 @@ input {
 }
 .extra {
   display: flex;
-  /* border: 2px solid blue; */
   margin: 6rem 2rem;
   background-color: #80908f;
   border-radius: 1.625rem;
@@ -108,7 +102,7 @@ input {
 /* Styles for the Travel Results Page */
 #header-text {
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 #result-body {
   background-color: rgb(252, 252, 252);
@@ -122,7 +116,6 @@ input {
   display: flex;
   flex-direction: column;
   padding: 2rem;
-  /* border: 2px solid purple; */
 }
 .results {
   border: 2px solid #d6801a;
@@ -161,12 +154,10 @@ input {
   height: 3rem;
   border-radius: 0.5rem;
   background-color: transparent;
-  /* border: 2px solid red; */
 }
 
 .trip-list {
   max-width: 100vw;
-  /* border: 2px solid red; */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1rem;
@@ -182,7 +173,6 @@ input {
 .mini-img {
   max-height: 50vh;
   width: 100%;
-  /* border: 2px solid coral; */
 }
 .mini-img img {
   height: inherit;
@@ -221,7 +211,6 @@ input {
     border-top: none;
     border-left: none;
     border-right: none;
-    border-bottom: 2px dashed red;
   }
   .extra {
     display: flex;
@@ -242,7 +231,6 @@ input {
   }
   .trip-list {
     max-width: 100vw;
-    border: 2px solid red;
     display: flex;
     flex-direction: column;
   }

@@ -12,7 +12,6 @@ const contentDate = document.getElementById("content-date");
 const contentFeel = document.getElementById("content-feel");
 const contentTemp = document.getElementById("content-temp");
 const contentDescription = document.getElementById("content-descrip");
-// const weather = document.getElementById("weather");
 const img = document.getElementById("img");
 let saveButton = document.getElementById("save-button");
 const deleteButton = document.getElementById("delete-button");
@@ -24,17 +23,10 @@ const dynamicText = document.getElementById("extra-text");
 import "./styles/body.scss";
 import "./styles/footer.scss";
 import "./styles/header.scss";
+import { travelTalk } from "./js/extra.js";
+
 
 // dynamic text for the extra div
-const travelTalk = [
-  "Adventures are the best way to learn",
-  "I have not been everywhere, but it is on my list.",
-  "Life is either a daring adventure or nothing at all ~ Helen Keller",
-  " The real voyage of discovery consists not in seeking new landscapes, but in having new eyes. ~ Marcel Proust",
-  "Traveling: it leaves you speechless, then turns you into a storyteller. ~ Ibn Battuta",
-  "Travel makes one modest. You see what a tiny place you occupy in the world. ~ Gustave Flaubert",
-];
-
 setInterval(() => {
   const talkCount = Math.floor(Math.random() * 6);
   dynamicText.innerHTML = travelTalk[talkCount];
@@ -65,13 +57,6 @@ async function callBackend(destination, days) {
       feel: feel.value,
       days: days - 1,
     };
-    let savedCards = JSON.parse(localStorage.getItem("savedCards"));
-    console.log(savedCards);
-    if (!savedCards) {
-      savedCards = [];
-    }
-    savedCards.push(cardContent);
-    localStorage.setItem("savedCards", JSON.stringify(savedCards));
     const dataObject = {
       ...responseJson,
       destination: destination,
@@ -85,6 +70,7 @@ async function callBackend(destination, days) {
   }
 }
 
+// assigning the values to the respective tags
 const updateUi = (responseJson) => {
   state.innerHTML = destination.value;
   currentLocation.innerHTML = location.value;
@@ -108,26 +94,27 @@ const checkRequired = () => {
   return true;
 };
 
+
 searchButton.addEventListener("click", () => {
   if (checkRequired() == false) {
     alert("Please fill required field");
     return;
   }
 
+  // checking for valid date value and calculating the days difference
   const currentDate = new Date();
   const expectedDate = new Date(date.value);
-  //alert for a past date
   if (expectedDate < currentDate) {
     alert("You're not travelling to the past, please input a valid date");
     return;
   }
-  // console.log("testing testing testing", date.value);
   const diffTime = Math.abs(expectedDate - currentDate);
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   callBackend(destination.value, diffDays + 1);
 });
 
-// to create dynamic main card
+ 
+// to create dynamic main card for the form output
 const mainCard = (data) => {
   let template = `
           <section class="results">
@@ -163,17 +150,56 @@ const mainCard = (data) => {
           </section>
         `;
   tripCard.innerHTML = template;
+
+  //removing the main card (delete button)
+  document.getElementById("delete-button").addEventListener("click", () => {
+    document.querySelector(".results").remove();
+    document.querySelector("#result-button").remove();
+  });
+
+  //adding the mini cards (save button) to the grid
+
   saveButton = document.getElementById("save-button");
   saveButton.addEventListener("click", () => {
-    const savedCards = JSON.parse(localStorage.getItem("savedCards"));
+    let savedCards = JSON.parse(localStorage.getItem("savedCards"));
+    if (!savedCards) {
+      savedCards = [];
+    }
+    savedCards.push(cardContent);
+    localStorage.setItem("savedCards", JSON.stringify(savedCards));
     console.log(savedCards);
     let template = "";
     savedCards.forEach((value) => {
       template += miniCard(value);
     });
     tripList.innerHTML = template;
+    Array.from(document.querySelectorAll(".mini-button")).forEach(
+      (value, index) => {
+        value.addEventListener("click", () => {
+          deleteMiniCard(index);
+        });
+      }
+    );
   });
 };
+const reloadMiniCards = () => {
+  const savedCards = JSON.parse(localStorage.getItem("savedCards"));
+  console.log(savedCards);
+  let template = "";
+  savedCards.forEach((value) => {
+    template += miniCard(value);
+  });
+  tripList.innerHTML = template;
+  Array.from(document.querySelectorAll(".mini-button")).forEach(
+    (value, index) => {
+      value.addEventListener("click", () => {
+        deleteMiniCard(index);
+      });
+    }
+  );
+};
+
+
 
 // to create dynamic minicard
 const miniCard = (data) => {
@@ -200,7 +226,7 @@ const miniCard = (data) => {
   return template;
 };
 
-// for the save button
+// for saving mini cards to the local storage
 
 const saveButtonClick = () => {
   const savedCards = JSON.parse(localStorage.getItem("savedCards"));
@@ -211,6 +237,11 @@ const saveButtonClick = () => {
   });
   tripList.innerHTML = template;
 };
-const deleteMiniCard = ()=> {
-  
-}
+// for the delete button in the mini cards
+const deleteMiniCard = (index) => {
+  let savedCards = JSON.parse(localStorage.getItem("savedCards"));
+  savedCards = [...savedCards.slice(0, index), ...savedCards.slice(index + 1)];
+  localStorage.setItem("savedCards", JSON.stringify(savedCards));
+  reloadMiniCards();
+};
+ 

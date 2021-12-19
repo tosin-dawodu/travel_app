@@ -25,6 +25,10 @@ module.exports = {
       template: "./src/client/views/index.html",
       filename: "./index.html",
     }),
+    new HtmlWebPackPlugin({
+      template: "./src/client/views/form.html",
+      filename: "./form.html",
+    }),
     new WorkboxPlugin.GenerateSW(),
     new CleanWebpackPlugin({
       // Simulate the removal of files
