@@ -50,7 +50,7 @@
           ><br />
           <input type="text" id="feel" placeholder="Eg Excited, Happy..." />
           <br />
-          <button id="search-button">
+          <button id="search-button" type="submit">
             <span
               ><i id="button-search" class="form-icon fas fa-search"></i
             ></span>
@@ -92,4 +92,13 @@
       </section>
     </div>
   </footer>
+  <script>
+    // Check that service workers are supported
+    if ("serviceWorker" in navigator) {
+      // Use the window load event to keep the page load performant
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/service-worker.js");
+      });
+    }
+  </script>
 </html>

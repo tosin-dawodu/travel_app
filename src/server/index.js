@@ -1,4 +1,3 @@
-
 const dotenv = require("dotenv");
 const https = require("https");
 const http = require("http");
@@ -34,6 +33,7 @@ const pixaBayUrl = "https://pixabay.com/api/";
 app.post("/result", async function (req, res) {
   try {
     const geoRes = await geoNames(req.body.destination);
+
     const weatherRes = await weatherBit(
       geoRes.latitude,
       geoRes.longtitude,
@@ -47,7 +47,7 @@ app.post("/result", async function (req, res) {
     };
     res.send(totalResponse);
   } catch (error) {
-    res.send(error);
+    res.status(500).send(error);
   }
 });
 // create a request for the geonames API passing the destination as the query
@@ -65,14 +65,20 @@ const geoNames = (destination) => {
             .on("end", (d) => {
               let data = Buffer.concat(chunks);
               const geoResponse = JSON.parse(data);
-              // console.log(geoResponse);
+              if (geoResponse.totalResultsCount == 0) {
+                // throw new Error("Invalid destination");
+                reject("Invalid destination");
+                return;
+              }
               const geoObject = geoResponse.geonames[0];
+
               const geoData = {
                 longtitude: geoObject.lng,
                 latitude: geoObject.lat,
                 countryId: geoObject.geonameId,
                 countryName: geoObject.countryName,
               };
+
               resolve(geoData);
             });
           res.on("error", (error) => {
@@ -89,7 +95,6 @@ const geoNames = (destination) => {
 
 // create a request for the weatherbits API using the lat and long obtained from geonames as the query
 const weatherBit = (lat, long, days) => {
-  // console.log(days);
   return new Promise((resolve, reject) => {
     http
       .get(
@@ -103,7 +108,6 @@ const weatherBit = (lat, long, days) => {
             .on("end", (d) => {
               let data = Buffer.concat(chunks);
               const weatherResponse = JSON.parse(data);
-              // console.log(weatherResponse);
               const weatherObject = weatherResponse.data[days - 1];
               const weatherData = {
                 description: weatherObject.weather.description,
@@ -138,12 +142,17 @@ const pixaBay = (destination) => {
             .on("end", (d) => {
               let data = Buffer.concat(chunks);
               const pixaResponse = JSON.parse(data);
-              const pixaObject = pixaResponse.hits[0];
-              const pixaData = {
-                imgLink: pixaObject.webformatURL,
-                tag: pixaObject.tags,
-              };
-              resolve(pixaData);
+              if (pixaResponse.total > 0) {
+                const pixaObject = pixaResponse.hits[0];
+                const pixaData = {
+                  imgLink: pixaObject.webformatURL,
+                  tag: pixaObject.tags,
+                  total: pixaResponse.total,
+                };
+                resolve(pixaData);
+              } else {
+                reject("Invalid destination");
+              }
             });
           res.on("error", (error) => {
             console.log(error);

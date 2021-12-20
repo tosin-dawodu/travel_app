@@ -1,18 +1,9 @@
-// JS file for client side ie manipulating the DOM
 const form = document.getElementById("form-id");
 const location = document.getElementById("location");
 const destination = document.getElementById("destination");
 const date = document.getElementById("date");
 const feel = document.getElementById("feel");
 const searchButton = document.getElementById("search-button");
-const state = document.getElementById("state");
-const currentLocation = document.getElementById("current-location");
-const contentDestination = document.getElementById("content-destination");
-const contentDate = document.getElementById("content-date");
-const contentFeel = document.getElementById("content-feel");
-const contentTemp = document.getElementById("content-temp");
-const contentDescription = document.getElementById("content-descrip");
-const img = document.getElementById("img");
 let saveButton = document.getElementById("save-button");
 const deleteButton = document.getElementById("delete-button");
 const tripList = document.getElementById("trip-list");
@@ -24,7 +15,12 @@ import "./styles/body.scss";
 import "./styles/footer.scss";
 import "./styles/header.scss";
 import { travelTalk } from "./js/extra.js";
+import { miniCard, deleteMiniCard } from "./js/minicard.js";
+// import { updateUi } from "./js/ui.js";
 
+form.addEventListener("submit", (evt) => {
+  evt.preventDefault();
+});
 
 // dynamic text for the extra div
 setInterval(() => {
@@ -34,18 +30,22 @@ setInterval(() => {
 
 // calling API responses
 async function callBackend(destination, days) {
-  const response = await fetch("http://localhost:3030/result", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      destination: destination,
-      days: days,
-    }),
-    credentials: "same-origin",
-  });
   try {
+    const response = await fetch("http://localhost:3030/result", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        destination: destination,
+        days: days,
+      }),
+      credentials: "same-origin",
+    });
+    if (response.status != 200) {
+      alert("Please input valid destination");
+      return;
+    }
     const responseJson = await response.json();
     cardContent = {
       imgLink: responseJson.imgLink,
@@ -56,6 +56,7 @@ async function callBackend(destination, days) {
       destination: destination,
       feel: feel.value,
       days: days - 1,
+      total: responseJson.total,
     };
     const dataObject = {
       ...responseJson,
@@ -70,30 +71,13 @@ async function callBackend(destination, days) {
   }
 }
 
-// assigning the values to the respective tags
-const updateUi = (responseJson) => {
-  state.innerHTML = destination.value;
-  currentLocation.innerHTML = location.value;
-  contentDestination.innerHTML = destination.value;
-  contentDate.innerHTML = date.value;
-  contentFeel.innerHTML = `I feel ${feel.value}!`;
-  contentTemp.innerHTML = `Temperature: ${responseJson.temperature}°C`;
-  contentDescription.innerHTML = `Description: ${responseJson.description}`;
-  img.src = responseJson.imgLink;
-  img.setAttribute("alt", responseJson.tag);
-};
-
-form.addEventListener("submit", (evt) => {
-  evt.preventDefault();
-});
-
 const checkRequired = () => {
   if (location.value == "" || destination.value == "" || date.value == "") {
     return false;
   }
+  // if the destination is invalid, return an alert "input valid location eg a city"
   return true;
 };
-
 
 searchButton.addEventListener("click", () => {
   if (checkRequired() == false) {
@@ -113,7 +97,6 @@ searchButton.addEventListener("click", () => {
   callBackend(destination.value, diffDays + 1);
 });
 
- 
 // to create dynamic main card for the form output
 const mainCard = (data) => {
   let template = `
@@ -167,7 +150,6 @@ const mainCard = (data) => {
     }
     savedCards.push(cardContent);
     localStorage.setItem("savedCards", JSON.stringify(savedCards));
-    console.log(savedCards);
     let template = "";
     savedCards.forEach((value) => {
       template += miniCard(value);
@@ -182,66 +164,4 @@ const mainCard = (data) => {
     );
   });
 };
-const reloadMiniCards = () => {
-  const savedCards = JSON.parse(localStorage.getItem("savedCards"));
-  console.log(savedCards);
-  let template = "";
-  savedCards.forEach((value) => {
-    template += miniCard(value);
-  });
-  tripList.innerHTML = template;
-  Array.from(document.querySelectorAll(".mini-button")).forEach(
-    (value, index) => {
-      value.addEventListener("click", () => {
-        deleteMiniCard(index);
-      });
-    }
-  );
-};
 
-
-
-// to create dynamic minicard
-const miniCard = (data) => {
-  let template = `  <div class="mini-card">
-            <div class="mini-img">
-              <img
-                src="${data.imgLink}"
-                alt="${data.tag}"
-                class="mini-img"
-              />
-            </div>
-            <div class="mini-content">
-              <h3>${data.destination}</h3>
-              <p class="result-text">Countdown: ${data.days} days and I feel ${data.feel}!</p>
-              <p class="weather">
-                Temperature: ${data.temperature}°C <br />
-                Description: ${data.description}
-              </p>
-            </div>
-            <div class="mini-button">
-              <span><i class="form-icon fas fa-trash-alt"></i></span>
-            </div>
-          </div>`;
-  return template;
-};
-
-// for saving mini cards to the local storage
-
-const saveButtonClick = () => {
-  const savedCards = JSON.parse(localStorage.getItem("savedCards"));
-  console.log(savedCards);
-  let template = "";
-  savedCards.forEach((value) => {
-    template += miniCard(value);
-  });
-  tripList.innerHTML = template;
-};
-// for the delete button in the mini cards
-const deleteMiniCard = (index) => {
-  let savedCards = JSON.parse(localStorage.getItem("savedCards"));
-  savedCards = [...savedCards.slice(0, index), ...savedCards.slice(index + 1)];
-  localStorage.setItem("savedCards", JSON.stringify(savedCards));
-  reloadMiniCards();
-};
- 

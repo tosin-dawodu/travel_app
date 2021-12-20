@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="../styles/body.scss" />
-    <link rel="stylesheet" href="../styles/footer.scss" />
+    <!-- <link rel="stylesheet" href="../styles/body.scss" />
+    <link rel="stylesheet" href="../styles/footer.scss" /> -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -41,5 +41,14 @@
         ></a>
       </section>
     </div>
+    <script>
+      // Check that service workers are supported
+      if ("serviceWorker" in navigator) {
+        // Use the window load event to keep the page load performant
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/service-worker.js");
+        });
+      }
+    </script>
   </body>
 </html>

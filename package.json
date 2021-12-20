@@ -19,7 +19,9 @@
     "express": "^4.17.1",
     "https": "^1.0.0",
     "path": "^0.12.7",
-    "webpack-prod-server": "^1.1.1"
+    "webpack-prod-server": "^1.1.1",
+    "regenerator-runtime": "^0.13.9"
+
   },
   "devDependencies": {
     "@babel/core": "^7.16.5",

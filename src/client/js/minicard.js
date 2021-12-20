@@ -1,11 +1,26 @@
 // to create dynamic minicard
-// let saveButton = document.getElementById("save-button");
 
-// import { dataObject } from "../index/js";
 const tripList = document.getElementById("trip-list");
 
+const reloadMiniCards = () => {
+  const tripList = document.getElementById("trip-list");
+  const savedCards = JSON.parse(localStorage.getItem("savedCards"));
+  let template = "";
+  savedCards.forEach((value) => {
+    template += miniCard(value);
+  });
+  tripList.innerHTML = template;
+  Array.from(document.querySelectorAll(".mini-button")).forEach(
+    (value, index) => {
+      value.addEventListener("click", () => {
+        deleteMiniCard(index);
+      });
+    }
+  );
+};
+
 const miniCard = (data) => {
-  let template = `  <div class="mini-card">
+  let template = `<div class="mini-card">
             <div class="mini-img">
               <img
                 src="${data.imgLink}"
@@ -32,7 +47,6 @@ const miniCard = (data) => {
 
 const saveButtonClick = () => {
   const savedCards = JSON.parse(localStorage.getItem("savedCards"));
-  console.log(savedCards);
   let template = "";
   savedCards.forEach((value) => {
     template += miniCard(value);
@@ -46,4 +60,4 @@ const deleteMiniCard = (index) => {
   localStorage.setItem("savedCards", JSON.stringify(savedCards));
   reloadMiniCards();
 };
-export { miniCard, saveButtonClick, deleteMiniCard };
+export { miniCard, deleteMiniCard };
