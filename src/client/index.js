@@ -18,14 +18,18 @@ import { travelTalk } from "./js/extra.js";
 import { miniCard, deleteMiniCard } from "./js/minicard.js";
 // import { updateUi } from "./js/ui.js";
 
-form.addEventListener("submit", (evt) => {
-  evt.preventDefault();
-});
+if (form) {
+  form.addEventListener("submit", (evt) => {
+    evt.preventDefault();
+  });
+}
 
 // dynamic text for the extra div
 setInterval(() => {
   const talkCount = Math.floor(Math.random() * 6);
-  dynamicText.innerHTML = travelTalk[talkCount];
+  if (dynamicText) {
+    dynamicText.innerHTML = travelTalk[talkCount];
+  }
 }, 20000);
 
 // calling API responses
@@ -79,23 +83,25 @@ const checkRequired = () => {
   return true;
 };
 
-searchButton.addEventListener("click", () => {
-  if (checkRequired() == false) {
-    alert("Please fill required field");
-    return;
-  }
+if (searchButton) {
+  searchButton.addEventListener("click", () => {
+    if (checkRequired() == false) {
+      alert("Please fill required field");
+      return;
+    }
 
-  // checking for valid date value and calculating the days difference
-  const currentDate = new Date();
-  const expectedDate = new Date(date.value);
-  if (expectedDate < currentDate) {
-    alert("You're not travelling to the past, please input a valid date");
-    return;
-  }
-  const diffTime = Math.abs(expectedDate - currentDate);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  callBackend(destination.value, diffDays + 1);
-});
+    // checking for valid date value and calculating the days difference
+    const currentDate = new Date();
+    const expectedDate = new Date(date.value);
+    if (expectedDate < currentDate) {
+      alert("You're not travelling to the past, please input a valid date");
+      return;
+    }
+    const diffTime = Math.abs(expectedDate - currentDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    callBackend(destination.value, diffDays + 1);
+  });
+}
 
 // to create dynamic main card for the form output
 const mainCard = (data) => {
@@ -135,6 +141,7 @@ const mainCard = (data) => {
   tripCard.innerHTML = template;
 
   //removing the main card (delete button)
+
   document.getElementById("delete-button").addEventListener("click", () => {
     document.querySelector(".results").remove();
     document.querySelector("#result-button").remove();
@@ -164,4 +171,3 @@ const mainCard = (data) => {
     );
   });
 };
-
